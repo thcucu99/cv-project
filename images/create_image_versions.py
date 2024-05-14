@@ -34,9 +34,21 @@ def create_obstructed_images(image_path, output_dir):
                 name_suffix += str(j+1)
         # Save the modified image
         base_name = image_path.split('/')[-1].split('.')[0]
+        try:
+            base_name = base_name.split('\\')[-1]
+        except:
+            print('')
         copy_img.save(os.path.join(output_dir, f'{base_name}_{name_suffix}.png'))
 
 
 # Example usage:
-create_obstructed_images('images/original/image_95.png', 'images/all_images')
+# create_obstructed_images('images/original/image_95.png', 'images/all_images')
+def process_images_in_directory(source_dir, output_dir):
+    # List all files in the source directory
+    for filename in os.listdir(source_dir):
+        if filename.endswith(".png"):  # Check for PNG images (or adjust for other types)
+            image_path = os.path.join(source_dir, filename)
+            create_obstructed_images(image_path, os.path.join(output_dir, os.path.splitext(filename)[0]))
 
+# Example usage:
+process_images_in_directory('images/original', 'images/all_images')
