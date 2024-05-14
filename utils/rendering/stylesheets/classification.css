@@ -1,0 +1,112 @@
+.jspsych-display-element {
+  background-color: #808080;
+}
+
+.stimulus-wrapper {
+    margin: auto;
+    display: block;
+    position: fixed;
+    bottom:50%;
+    left:50%;
+    width:95%;
+    transform: translateX(-50%);
+    cursor: none;
+}
+
+.stimulus-string-element {
+    margin: auto;
+    max-height: 10em;
+    max-width:40em;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    border: 2px solid rgba(63, 55, 55, 0.5);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 1);
+    padding: 1em;
+    overflow: auto;
+    margin-bottom:1em;
+}
+
+
+.stimulus-image-element {
+    margin: auto;
+    cursor: none;
+}
+
+
+.choices-wrapper {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position:fixed;
+    top:50%;
+    left:50%;
+    width:95%;
+    margin-top: 4em;
+    transform: translateX(-50%);
+    /*background-color: darkgray;*/
+}
+
+.choice-element-wrapper {
+    margin:1em;
+    height: 100%;
+    max-width:10em;
+    border: 1px solid rgba(63, 55, 55, 0.5);
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    padding:0.5em;
+    background-color: white;
+}
+
+.choice-string {
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    overflow: auto;
+    overflow-wrap:break-word;
+}
+
+.choice-image {
+    max-width: 5em;
+    height:auto;
+    margin:auto;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.fixation-button-element {
+    display: flex;
+    border-radius: 50%;
+    width: 2em;
+    height: 2em;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    vertical-align: text-top;
+    border: 0 solid rgba(63, 55, 55, 0.5);
+}
+
+.correct {
+    font-size: 160px;
+    color: green;
+}
+.incorrect {
+    font-size: 160px;
+    color: red;
+}
+.cursor_off {
+    cursor: none;
+}

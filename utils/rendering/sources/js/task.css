@@ -1,0 +1,57 @@
+
+.jspsych-display-element {
+  background-color: #7f7f7f;
+}
+
+.jspsych-btn {
+  font-size: 20px; /* Larger font size */
+    /*display: flex;*/
+}
+
+.fixation {
+      font-size: 160px;
+}
+.correct {
+    font-size: 160px;
+    color: green;
+}
+.incorrect {
+    font-size: 160px;
+    color: red;
+}
+.cursor_off {
+    cursor: none;
+}
+
+.jspsych-content img {
+  width: 25vw;  /* Set image width to 25% of the container's width */
+  height: auto; /* Maintain aspect ratio */
+    max-width: 500px;
+}
+/* CSS to make buttons disappear if the window is too small */
+@media (max-width: 800px) { /* Adjust 600px to your specific breakpoint */
+    .jspsych-btn {
+        display: none; /* This will hide the buttons */
+    }
+}
+
+#custom-stimulus-text {
+    font-size: 1.5em; /* Adjust the font size as needed */
+    background-color: rgba(255, 255, 255, 0.69); /* Light grey background color */
+    padding: 10px; /* Adjust padding as needed */
+    border-radius: 8px; /* Optional: Add rounded corners */
+}
+#message {
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+/*#jspsych-html-button-response-btngroup {*/
+/*  font-size: 1.5em; !* Adjust the font size as needed *!*/
+/*  background-color: rgba(255, 255, 255, 0.69); !* Light grey background color *!*/
+/*  padding: 10px; !* Adjust padding as needed *!*/
+/*  border-radius: 8px; !* Optional: Add rounded corners *!*/
+/*}*/

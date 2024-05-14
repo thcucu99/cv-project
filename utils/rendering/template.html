@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!DOCTYPE html>
+<html>
+<head>
+    <title>VAT</title>
+    <script src="https://s3.amazonaws.com/visualaffect/jspsych/jspsych.js"></script>
+    <script src="https://s3.amazonaws.com/visualaffect/jspsych/plugin-html-keyboard-response.js"></script>
+    <script src="https://s3.amazonaws.com/visualaffect/jspsych/plugin-html-button-response.js"></script>
+    <script src="https://s3.amazonaws.com/visualaffect/jspsych/plugin-image-keyboard-response.js"></script>
+    <script src="https://s3.amazonaws.com/visualaffect/jspsych/plugin-image-button-response.js"></script>
+    <script src="https://s3.amazonaws.com/visualaffect/jspsych/plugin-html-slider-response.js"></script>
+    <script src="https://s3.amazonaws.com/visualaffect/jspsych/plugin-preload.js"></script>
+    <script src="https://s3.amazonaws.com/visualaffect/jspsych/plugin-browser-check.js"></script>
+    <link href="https://s3.amazonaws.com/visualaffect/jspsych/jspsych.css" rel="stylesheet" type="text/css"/>
+    <link href="https://visualaffect.s3.amazonaws.com/js/classification.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<script src="https://visualaffect.s3.amazonaws.com/js/data_to_jspsych_trial.js"></script>
+
+
+<body></body>
+
+<script>
+
+    // All string escapes should be here, not scattered.
+    const experimental_condition = '__INJECT_CONDITION_HERE__';
+    let trial_data_sequence = '__INJECT TRIAL INFORMATION HERE__';
+    if (typeof trial_data_sequence === 'string' || trial_data_sequence instanceof String) {
+        trial_data_sequence = [];
+    }
+
+    // Globals
+    const session_start_time = new Date().toISOString();
+    let EXTERNAL_IMAGE_REFERENCES = [];
+
+    let jsPsych = initJsPsych({
+        show_progress_bar: true,
+        on_finish: function () {
+            jsPsych.data.displayData();
+        }
+    });
+
+    // Assemble high-level jsPsych trials
+    let preload_trial = {
+        type: jsPsychPreload,
+        auto_preload: true,
+        show_progress_bar: true,
+        message: 'Loading experiment...',
+        images: EXTERNAL_IMAGE_REFERENCES,
+        on_finish: function () {
+            console.log('Done preloading.')
+        }
+    }
+    let browser_check = {
+      type: jsPsychBrowserCheck,
+      inclusion_function: (data) => {
+        return data.mobile === false
+      },
+      exclusion_message: (data) => {
+          if (data.mobile) {
+              return '<p>You must use a desktop/laptop computer to participate in this experiment.</p>';
+          }
+      }
+    };
+
+    let turk_submission_node = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: '<h1>Click to submit your work.</h1>',
+        choices: ['Submit'],
+        trial_duration: 10000, // Wait before autosubmitting
+        on_finish: function () {
+            const turkInfo = jsPsych.turk.turkInfo();
+            let data = jsPsych.data.get().json()
+
+            let dataobject = {
+                'trial_datastring': JSON.stringify(data),
+                'session_start_time': session_start_time,
+                'task_url': window.location.href,
+                'experimental_condition': experimental_condition,
+            }
+            jsPsych.turk.submitToTurk(dataobject);
+            if (turkInfo.outsideTurk === true) {
+                console.log(data)
+                jsPsych.data.displayData('JSON');
+            }
+        },
+    };
+
+
+    // Assemble sequence of jsPsych trials
+    let experimental_jspsych_trials = [];
+
+    for (let i_trial = 0; i_trial < trial_data_sequence.length; i_trial++) {
+        const current_trial_json = trial_data_sequence[i_trial];
+
+        let jspsych_trial = get_jspsych_trial(
+            current_trial_json
+        )
+
+        // If null, that means a trial was not successfully created. Continue.
+        if (jspsych_trial === null) {
+            continue;
+        }
+        // experimental_jspsych_trials.push(create_fixation_trial());
+        experimental_jspsych_trials.push(jspsych_trial);
+    }
+
+    console.log(experimental_jspsych_trials)
+    if (experimental_jspsych_trials.length > 0) {
+        jsPsych.run([
+            browser_check,
+            // create_consent_form_trial(),
+            // create_instructions_trial(),
+            preload_trial,
+            ...experimental_jspsych_trials,
+            turk_submission_node,
+        ]);
+
+    } else {
+        alert('No trials found. This is a Requestor error.');
+    }
+
+
+</script>
+</html>
+</head>
+<body>
+
+</body>
+</html>
